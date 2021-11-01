@@ -1,4 +1,4 @@
-# SandStar Payment App FAQ
+# Payment App FAQ
 
 >  This document is still writing now, if there is something missed, feel free to raise an issue or make a pull request to contribute this doc together.
 >
@@ -192,8 +192,104 @@ The **payment app** will switch to the error screen like above while any excepti
 
 
 
-## Frequenlity Asked Questions
+## Technician Guide
 
-### 1.  POS Initalization hangup
+### 1.  How to login Venus
 
-   
+> You must connect to the cabinets VPN before login venus.
+
+```shell
+ssh sandstart@10.9.x.x
+```
+
+### 2. How to get the IP of Tablet
+
+> **Payment App** will enabled the remote debug ability automatically when it was launched, the remote connect port is 5555.
+
+Actually, the **Payment App** will auto-lauch when **Tablet** power-on. But how to acquired the IP of tablet is required some work to do in this situation.
+
+We can use the command like below to scan the LAN in order to detected the tablet's IP.
+
+#### Preparetion
+
+1. Make sure the Venus has `ip` and `nmap` and `adb` command, if the answer is not, please use `sudo apt install nmap adb` to install it directly.
+2. Make sure the Venus and Tablets power-on and connect to same LAN. 
+3. Use `ip` command to fetch the LAN IP of Venus like below, the `10.81.110.217` is the IP of Venus.
+
+```shell
+ip addr|grep eth0 -A 10
+```
+
+![image-20211101202002244](./_media/14-show-ip.png)
+
+#### Scan Tablet's IP
+
+Now, we have the ethernet IP(LAN) of Venus, it's a good begin. secondly, we need to use `nmap` command to scan the tablet's IP.
+
+In this demonstrate, we use `10.81.110.0/24` subnet to scan it.
+
+```shell
+nmap 10.81.110.0/24 -p5555 |grep open  -B 5
+```
+
+![image-20211101202817625](./_media/15-scan-tablet-ip.png)
+
+The figure above show two IP with 5555 port opened in this subnet, means there are two Tablet avaliable.
+
+### 3. How to check the log of payment app
+
+#### Preparetion
+
+Firstly, connect the tablet with command below.
+
+```shell
+adb connect 10.81.110.182
+```
+
+![image-20211101203834280](./_media/16-adb-connect.png)
+
+Secondly, check the android device with command below.
+
+```shell
+adb devices
+```
+
+![image-20211101203945225](./_media/17-adb-devices.png)
+
+#### Read Tablet logs
+
+If every thing is fine, you can use the command below to read the realtime logs of Tablet.
+
+```shell
+adb logcat
+```
+
+![image-20211101204226363](./_media/18-adb-logcat.png)
+
+#### Read Tablet logs Advance
+
+The filter is supported. You can use `pipe` and  `grep` command to filter the log of Tablet like below.
+
+```shell
+# Read POS logs only
+adb logcat |grep PosManager
+# Read Exception logs only
+adb logcat |grep Exception
+```
+
+#### One more thing
+
+Since the `adb` command is avaliable, you can use all `adb` functions to control the **Tablet** and **Payment App**.
+
+```shell
+# ssh to Tablet
+adb shell
+# Kill the payment-app
+adb shell am force-stop com.yitunnel.creditcard
+# Start the payment-app
+adb shell am start -n com.yitunnel.creditcard/com.sandstar.ui.InitPaymentActivity
+```
+
+If you want to see more detail of `adb` command, please visit this site below, which is provide by Google.
+
+https://developer.android.com/studio/command-line/adb
