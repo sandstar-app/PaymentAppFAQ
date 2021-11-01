@@ -219,10 +219,24 @@ We can use the command like below to scan the LAN in order to detected the table
 3. Use `ip` command to fetch the LAN IP of Venus like below, the `10.81.110.217` is the IP of Venus.
 
 ```shell
+# ip addr
 ip addr|grep eth0 -A 10
 ```
 
 ![image-20211101202002244](./_media/14-show-ip.png)
+
+4. Optional: Use `ifconfig` command to fetch the IP of Venus
+
+!> `ifconfig` command is only available when `net-tools` was installed by `apt`
+
+```shell
+# Get the LAN IP of Venus
+ifconfig eth0|grep inet|awk 'NR==1{print $2}'
+# Get the VPN IP of Venus
+ifconfig tun0|grep inet|awk 'NR==1{print $2}'
+```
+
+![image-20211102015229839](./_media/14-show-ip-2.png)
 
 #### Scan Tablet's IP
 
@@ -231,7 +245,10 @@ Now, we have the ethernet IP(LAN) of Venus, it's a good begin. secondly, we need
 In this demonstrate, we use `10.81.110.0/24` subnet to scan it.
 
 ```shell
+# for 10.81.110.0/24 subset only
 nmap 10.81.110.0/24 -p5555 |grep open  -B 5
+# for any LAN subset. But to be noticed the command of ifconfig is required.
+nmap -p5555 $(ifconfig eth0|grep inet|awk 'NR==1{print $2}')/24|grep open -B 5
 ```
 
 ![image-20211101202817625](./_media/15-scan-tablet-ip.png)
