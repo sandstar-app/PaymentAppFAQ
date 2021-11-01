@@ -1,6 +1,6 @@
 # SandStar Payment App FAQ
 
-> This document is still writing now, if there is missing something, feel free to raise an issue or request a pull request to contribute it together. 
+>  This document is still writing now, if there is something missed, feel free to raise an issue or make a pull request to contribute this doc together.
 >
 > Thanks.
 
@@ -74,9 +74,125 @@ If there have a new apk was released to **AppUpdateServer**. The **payment app**
 
 > Transaction is preparing.
 
-In this screen, payment app will request the `/sync/getPreAuthAmount`  from **misClient** server which is run inside Venus to fetch the `preOrderAmount` and `orderCode` fields, which will be used to perform next call. Once the payment app received the response from **misClient**
+In this screen, **payment app** will request the `/sync/getPreAuthAmount` endpoint from **misClient** server which is run in Venus to fetch the `preOrderAmount` and `orderCode` fields, which will be used to perform next call. 
 
-## Problem Resolve
+Once the **payment app** received the response from **misClient** and get the `preOrderAmount` and `orderCode` params, it will instantly to perform a `processSalce` call by **WorldNet SDK**  to active the **POS Terminal**, then the light of **POS Terminal** will be green. and the will switched to next screen(ScanCardScreen).
+
+!> Know Issues
+
+![Screenshot_20211101-174319](./_media/04-preAuthAmount-failed.png)
+
+If there is "Count not get advance order information" occurred, it's means the **misClient** not response as **Payment App** expected.
+
+So please check below :
+
+1. Is **misClient** Server running ?
+2. Is VMSClient IP which in **Payment App**'s' Config Screen  is configured correcttly ?
+
+
+
+### 4. Scan Card Screen
+
+#### Screenshot
+
+![Screenshot_20211025-234727](./_media/05-scancard.png)
+
+#### Description
+
+> Waiting customer show card.
+
+At first, the Tap/Insert/Swipe mode is activated, so customer can present their bankcard with **POS Terminal**(IDTech VP3300) built-in card interface.
+
+Once **POS Terminal** detected the bankcard, **payment app** will toast a message like below.
+
+![Screenshot_20211025-234814](./_media/06-card-detected.png)
+
+!> Know Issues
+
+If the card is not supported by **WorldNet** or **POS Terminal**, **payment app** will toast a error meesage like below.
+
+| Card tap not supported, please use intert or swipe mode.     | Card expired, please use another card.                      |
+| ------------------------------------------------------------ | ----------------------------------------------------------- |
+| ![Screenshot_20211025-234818](./_media/07-card-tap-not-support.png) | ![Screenshot_20211025-225901](./_media/08-card-expired.png) |
+
+If the card detected is well, the **payment app** will request `/sync/openDoor`  from **misClient**, once **misClient** response success to **payment app**,then the screen will be switched to **Door Unlocked Screen**.
+
+### 5. Door Unlocked Screen
+
+#### Screenshot
+
+![Screenshot_20211025-225211](./_media/09-door-unlocked.png)
+
+#### Description
+
+> Waiting customer open the door.
+
+The door lock will remain open for about ten seconds, and if the door is pulled within the lock open time period, then shopping can begin; if the door is opened too late, the lock will automatically fall down.
+
+!> Know Issues
+
+If `/sync/openDoor` request is not working, the **payment app** will switch to the error screen. You can found it in [Opps Screen Secion](#_8-Oops-Screen)
+
+### 6. Shopping Screen
+
+#### Screenshot
+
+| Empty Shopping Cart                                       | Shopping Cart                                              |
+| --------------------------------------------------------- | ---------------------------------------------------------- |
+| ![Screenshot_20211101-193729](./_media/11-cart-empty.png) | ![Screenshot_20211101-193814](./_media/12-cart-normal.png) |
+
+#### Description
+
+During open-door shopping, the shopping cart page will automatically update when you take any item out of the cabinet.
+
+!> Potential Issues
+
+1. If an item is incorrectly identified, such as recognizing a Coke as a cookie, please contact the vision algorithm team.
+2. If the item is incorrectly priced, please contact IT support. 
+
+### 7. Checkout Screen
+
+#### Screenshot
+
+![Screenshot_20211101-193833](./_media/13-purchase.png)
+
+#### Description
+
+When the cabinet door is closed, **payment app** automatically switches to the checkout screen and stays there for a few seconds.
+
+The customer can check the amount of his purchase on this page and this amount will be charged to his credit card shortly afterwards.
+
+!> Potential Issues
+
+1. If the purchase amount is incorrect, please contact IT support
+
+### 8. Oops Screen
+
+#### Screenshot
+
+![Screenshot_20211101-192556](./_media/10-error-has-incomplate-order.png)
+
+#### Description
+
+The **payment app** will switch to the error screen like above while any exception happened during shopping. 
+
+> The key point in this screen is the error message presented.So please record this message that IT support can locate the problem as soon as possible.
+
+**Common Error Message Table**
+
+| Error Message                                        | Description                                                  |
+| ---------------------------------------------------- | ------------------------------------------------------------ |
+| There is incomplete transaction(2), please try later | There is a incomplete transaction, please wait a minute.<br/>If this message repeat persists, please call IT support. |
+| System Error(3), please try later                    | Hardware communication failed, please call IT support.       |
+| System Error(4), please try later                    | Algorithm communication failed, please call IT support.      |
+| System Error(5), please try later                    | Serial port equipment not ready, please call IT support.     |
+| System Error(6), please try later                    | There was a problem with the scanner. Please try again later or contact our service team for help. |
+| System Error(9), please try later                    | The service is not ready, please call IT support.            |
+| Other problems.                                      | Please take a photo and call IT support.                     |
+
+
+
+## Frequenlity Asked Questions
 
 ### 1.  POS Initalization hangup
 
