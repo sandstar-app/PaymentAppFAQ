@@ -312,3 +312,6 @@ adb shell am start -n com.yitunnel.creditcard/com.sandstar.ui.InitPaymentActivit
 If you want to see more detail of `adb` command, please visit this site below, which is provide by Google.
 
 https://developer.android.com/studio/command-line/adb
+
+
+
