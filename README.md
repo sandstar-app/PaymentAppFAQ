@@ -204,6 +204,8 @@ ssh sandstart@10.9.x.x
 
 ### 2. How to get the IP of Tablet
 
+!> You must login to the Venus before subsequently operation.
+
 > **Payment App** will enabled the remote debug ability automatically when it was launched, the remote connect port is 5555.
 
 Actually, the **Payment App** will auto-lauch when **Tablet** power-on. But how to acquired the IP of tablet is required some work to do in this situation.
