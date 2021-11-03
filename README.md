@@ -307,6 +307,8 @@ adb shell
 adb shell am force-stop com.yitunnel.creditcard
 # Start the payment-app
 adb shell am start -n com.yitunnel.creditcard/com.sandstar.ui.InitPaymentActivity
+# Check the version of Payment App
+adb shell dumpsys package com.yitunnel.creditcard|grep version
 ```
 
 If you want to see more detail of `adb` command, please visit this site below, which is provide by Google.
