@@ -225,7 +225,18 @@ ip addr|grep eth0 -A 10
 
 ![image-20211101202002244](./_media/14-show-ip.png)
 
-4. Optional: Use `ifconfig` command to fetch the IP of Venus
+4. Use `ip` command to fetch the IP of Venus
+
+```shell
+# Get the LAN IP of Venus
+ip addr show eth0|grep inet|awk 'NR==1{print $2}'
+# Get the VPN IP of Venus
+ip addr show tun0|grep inet|awk 'NR==1{print $2}'
+```
+
+![image-20211110133123278](./_media/14-show-ip-3.png)
+
+5. Optional: Use `ifconfig` command to fetch the IP of Venus
 
 !> `ifconfig` command is only available when `net-tools` was installed by `apt`
 
@@ -249,6 +260,8 @@ In this demonstrate, we use `10.81.110.0/24` subnet to scan it.
 nmap 10.81.110.0/24 -p5555 |grep open  -B 5
 # for any LAN subset. But to be noticed the command of ifconfig is required.
 nmap -p5555 $(ifconfig eth0|grep inet|awk 'NR==1{print $2}')/24|grep open -B 5
+# for any LAN subset. But to be noticed the command of ip is required.
+nmap -p5555 $(ip addr show eth0|grep inet|awk 'NR==1{print $2}')|grep open -B 5
 ```
 
 ![image-20211101202817625](./_media/15-scan-tablet-ip.png)
