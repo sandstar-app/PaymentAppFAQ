@@ -13,6 +13,6 @@ Tips: The latest version of 🇺🇸 USA payment App is v3.5.1-211102,
 
 which you can found it with URL below.
 
-http://app.sandstar.com:8080/s/NJfcbm6mzNfARtB
+http://app.sandstar.com:8080/s/snNTQRoDF46tdnt
 
 ![color](#ffffff)
