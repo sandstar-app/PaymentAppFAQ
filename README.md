@@ -180,15 +180,18 @@ The **payment app** will switch to the error screen like above while an exceptio
 
 **Common Error Message Table**
 
-| Error Message                                        | Description                                                  |
-| ---------------------------------------------------- | ------------------------------------------------------------ |
+| Error Message                                           | Description                                                  |
+| ------------------------------------------------------- | ------------------------------------------------------------ |
 | There is an incomplete transaction(2), please try later | There is an incomplete transaction, please wait a minute.<br/>If this message repeatedly persists, please call IT support. |
-| System Error(3), please try later                    | Hardware communication failed, please call IT support.       |
-| System Error(4), please try later                    | Algorithm communication failed, please call IT support.      |
-| System Error(5), please try later                    | Serial port equipment not ready, please call IT support.     |
-| System Error(6), please try later                    | There was a problem with the scanner. Please try again later or contact our service team for help. |
-| System Error(9), please try later                    | The service is not ready, please call IT support.            |
-| Other problems.                                      | Please take a photo and call IT support.                     |
+| System Error(3), please try later                       | Hardware communication failed, please call IT support.       |
+| System Error(4), please try later                       | Algorithm communication failed, please call IT support.      |
+| System Error(5), please try later                       | Serial port equipment not ready, please call IT support.     |
+| System Error(6), please try later                       | There was a problem with the scanner. Please try again later or contact our service team for help. |
+| System Error(7), please try later                       | There was a problem with the temperature sensor, please call IT support. |
+| System Error(8), please try later                       | The cabinet is locked, you can unlock it throught OPS app.   |
+| Be Right Back...                                        | Same as System Error(8). The cabinet is locked, you can unlock it throught OPS app. |
+| System Error(9), please try later                       | The service is not ready, please call IT support.            |
+| Other problems.                                         | Please take a photo and call IT support.                     |
 
 
 
