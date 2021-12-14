@@ -203,7 +203,7 @@ The **payment app** will switch to the error screen like above while an exceptio
 > You must connect to the cabinets VPN before login venus.
 
 ```shell
-ssh sandstart@10.9.x.x
+ssh sandstart@100.9.x.x
 ```
 
 ### 2. How to get the IP of Tablet
@@ -256,8 +256,6 @@ ifconfig tun0|grep inet|awk 'NR==1{print $2}'
 
 #### Scan Tablet's IP
 
-#### Scan Tablet's IP
-
 Now, we have the ethernet IP(LAN) of Venus, it's a good beginning. secondly, we need to use the `nmap` command to scan the tablet's IP.
 
 In this demonstration, we use the `10.81.110.0/24` subnet to scan it.
@@ -276,8 +274,6 @@ nmap -p5555 $(ip addr show eth0|grep inet|awk 'NR==1{print $2}')|grep open -B 5
 The figure above shows two IPs with 5555 ports opened in this subnet, which means there are two Tablets available.
 
 ### 3. How to check the log of payment app
-
-#### Preparetion
 
 #### Preparetion
 
@@ -316,6 +312,28 @@ The filter is supported. You can use the `pipe` and  `grep` command to filter th
 adb logcat |grep PosManager
 # Read Exception logs only
 adb logcat |grep Exception
+```
+
+#### Write Tablet logs to Venus
+
+> This is only a temporary log write. When the Venus or Tablet restarts, or the adbd service restarts, the write will be terminated.
+
+```shell
+adb logcat >> ~/Downloads/PaymentAppLogs/logcat.log &
+```
+
+#### Read the logs in file
+
+```shell
+tail -200f ~/Downloads/PaymentAppLogs/logcat.log
+```
+
+#### Check the VmsClientIp of PaymentApp
+
+```shell
+adb root
+adb connect $tabletIp
+adb shell cat /data/data/com.yitunnel.creditcard/shared_prefs/app_config.xml
 ```
 
 #### One more thing
