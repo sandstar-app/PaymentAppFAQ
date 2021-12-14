@@ -332,6 +332,8 @@ tail -200f ~/Downloads/PaymentAppLogs/logcat.log
 
 #### Check the VmsClientIp of PaymentApp
 
+![Show VmsClientServerIp of PaymentApp](./_media/18-show-server-ip-of-paymen-app.png)
+
 ```shell
 adb root
 adb connect $tabletIp
