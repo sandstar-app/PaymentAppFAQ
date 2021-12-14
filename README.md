@@ -87,7 +87,9 @@ If there is "Count not get advance order information" occurred, it means the **m
 So please check below :
 
 1. Is **misClient** Server running?
-2. Is VMSClient IP which in **Payment App**'s' Config Screen is configured correctly?
+2. Is VMSClient IP in **Payment App**'s' Config Screen is configured correctly?
+2. Is the tablet and Venus in same LAN?
+2. Is the Ethernet Cable working?
 
 
 ### 4. Scan Card Screen
